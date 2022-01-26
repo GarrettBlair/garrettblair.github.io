@@ -23,6 +23,7 @@ section, summary, time, mark, audio, video {
 	border: 0;
 	font-size: 100%;
 	font: inherit;
+	font-weight: 800;
 	vertical-align: baseline;}
 
 article, aside, details, figcaption, figure,
@@ -124,8 +125,8 @@ input, select, textarea {
 		}
 
 	strong, b {
-		color: #cccccc;
-		font-weight: 400;
+		color: #49bf9d;
+		/* font-weight: 400; */
 	}
 
 	em, i {
@@ -234,6 +235,11 @@ input, select, textarea {
 	.align-left {
 		text-align: left;
 	}
+	/* APA Reference Style */
+	.hangingindent{
+		padding-left: 36px;
+		text-indent: -36px;
+	}
 
 	.align-center {
 		text-align: center;
@@ -291,6 +297,7 @@ input, select, textarea {
 			}
 
 		}
+
 
 /* Row */
 
