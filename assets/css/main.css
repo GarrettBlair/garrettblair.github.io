@@ -235,6 +235,8 @@ input, select, textarea {
 	.align-left {
 		text-align: left;
 	}
+	.tealiconcolor{color:#3eb08f}
+	.purpiconcolor{color:#b662faa6}
 	/* APA Reference Style */
 	.hangingindent{
 		padding-left: 36px;
@@ -2454,15 +2456,15 @@ input, select, textarea {
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		background-color: transparent;
 		border-radius: 0.35em;
-		border: solid 3px #efefef;
+		border: solid 2px #efefef;
 		color: #cccccc !important;
 		cursor: pointer;
 		display: inline-block;
-		font-weight: 400;
+		font-weight: 1000;
 		height: 3.15em;
 		height: calc(2.75em + 6px);
 		line-height: 2.75em;
-		min-width: 10em;
+		min-width: 5em;
 		padding: 0 1.5em;
 		text-align: center;
 		text-decoration: none;
@@ -2473,7 +2475,7 @@ input, select, textarea {
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
 		.button:hover {
-			border-color: #49bf9d;
+			border-color: transparent;
 			color: #49bf9d !important;
 		}
 
