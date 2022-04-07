@@ -2484,8 +2484,9 @@ input, select, textarea {
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
 		.button:hover {
-			border-color: #49bf9d;
+			/* border-color: #49bf9d; */
 			background-color: #a655e9b9;
+			border: solid 4px #49bf9d;
 			color: #49bf9d !important;
 		}
 
