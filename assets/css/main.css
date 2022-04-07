@@ -107,22 +107,30 @@ input, select, textarea {
 	}
 
 	a {
-		-moz-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-		-webkit-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-		-ms-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-		transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+		-moz-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out, background-color 0.5s ease-in-out, border-bottom 0.2s ease-in-out;
+		-webkit-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out, background-color 0.5s ease-in-out, border-bottom 0.2s ease-in-out;
+		-ms-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out, background-color 0.5s ease-in-out, border-bottom 0.2s ease-in-out;
+		transition: color 0.2s ease-in-out, border-color 0.0s ease-in-out, background-color 0.5s ease-in-out, border-bottom 0.0s ease-in-out;
 		/* border-bottom: dotted 1px; */
-		border-bottom: 4px ridge #b662faa6;
+		/* border-bottom: 4px ridge #b662faa6; */
 		/* border-bottom: 4px ridge #49bf9ea6; */
-		color: #ffffff;
+		color: #49bf9d;
 		text-decoration: none;
 	}
 
-		a:hover {
-			border-bottom-color: transparent;
-			color: #49bf9d !important;
-			text-decoration: none;
-		}
+	a:hover {
+		border-bottom-color: transparent;
+		color: #ffffff !important;
+		border-bottom: 4px ridge #b662faa6;
+		background: #ffffff2d;
+		text-decoration: none;
+	}
+
+	a:active {
+		border-bottom-color: transparent;
+		color: #49bf9d !important;
+		text-decoration: none;
+	}
 
 	strong, b {
 		color: #49bf9d;
@@ -237,6 +245,7 @@ input, select, textarea {
 	}
 	.tealiconcolor{color:#3eb08f}
 	.purpiconcolor{color:#b662faa6}
+	.whticoncolor{color:#cccccc}
 	/* APA Reference Style */
 	.hangingindent{
 		padding-left: 36px;
@@ -2454,9 +2463,9 @@ input, select, textarea {
 		-webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-		background-color: transparent;
+		background-color: #8844c0a6;
 		border-radius: 0.35em;
-		border: solid 2px #efefef;
+		border: solid 2px #cccccc;
 		color: #cccccc !important;
 		cursor: pointer;
 		display: inline-block;
@@ -2475,7 +2484,8 @@ input, select, textarea {
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
 		.button:hover {
-			border-color: transparent;
+			border-color: #49bf9d;
+			background-color: #a655e9b9;
 			color: #49bf9d !important;
 		}
 
