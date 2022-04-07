@@ -2486,7 +2486,7 @@ input, select, textarea {
 		.button:hover {
 			/* border-color: #49bf9d; */
 			background-color: #a655e9b9;
-			border: solid 4px #49bf9d;
+			border: solid 2px #49bf9d;
 			color: #49bf9d !important;
 		}
 
@@ -3180,6 +3180,7 @@ input, select, textarea {
 
 			#header {
 				padding: 2.25em 1.5em;
+				background-image: url("images/overlay.png"), url("../../images/bg_mobile.jpg");
 			}
 
 				#header h1 {
@@ -3224,6 +3225,7 @@ input, select, textarea {
 
 			#header {
 				padding: 4.5em 1.5em;
+				background-image: url("images/overlay.png"), url("../../images/bg_mobile.jpg");
 			}
 
 				#header h1 br {
