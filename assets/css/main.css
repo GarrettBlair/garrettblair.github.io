@@ -2080,6 +2080,13 @@ input, select, textarea {
 			top: 0;
 			width: 100%;
 		}
+		.image:hover {
+			border-bottom-color: transparent;
+			color: #ffffff !important;
+			border-bottom: 0px ridge #b662faa6;
+			background: #ffffff2d;
+			text-decoration: none;
+		}
 
 		.image.thumb {
 			text-align: center;
@@ -2154,7 +2161,7 @@ input, select, textarea {
 			}
 
 		.image.avatar {
-			border-radius: 100%;
+			border-radius: 20%;
 		}
 
 			.image.avatar:before {
@@ -2162,8 +2169,8 @@ input, select, textarea {
 			}
 
 			.image.avatar img {
-				border-radius: 100%;
-				width: 150%;
+				border-radius: 20%;
+				width: 100%;
 			}
 
 /* List */
@@ -2661,8 +2668,8 @@ input, select, textarea {
 		}
 
 		#header .image.avatar {
-			margin: 0 0 1em 0;
-			width: 6.25em;
+			margin: 0em 0em 1.5em 0;
+			width: 8em;
 		}
 
 /* Footer */
