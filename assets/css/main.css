@@ -2470,7 +2470,7 @@ input, select, textarea {
 		-webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-		background-color: #8844c0a6;
+		background-color: #8c8c8ca6;
 		border-radius: 0.35em;
 		border: solid 2px #cccccc;
 		color: #cccccc !important;
@@ -2492,7 +2492,7 @@ input, select, textarea {
 		input[type="button"]:hover,
 		.button:hover {
 			/* border-color: #49bf9d; */
-			background-color: #a655e9b9;
+			background-color: #000000b9;
 			border: solid 2px #49bf9d;
 			color: #49bf9d !important;
 		}
