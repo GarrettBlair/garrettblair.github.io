@@ -250,6 +250,8 @@ input, select, textarea {
 	.hangingindent{
 		padding-left: 36px;
 		text-indent: -36px;
+		font-size: smaller;
+		line-height: 1.2;
 	}
 
 	.align-center {
