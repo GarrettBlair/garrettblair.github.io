@@ -884,6 +884,49 @@
 		}
 	}
 
+	ul.actions.contact-actions {
+		@include vendor('flex-wrap', 'wrap');
+		margin-bottom: 0;
+
+		li {
+			padding-top: 0.75em;
+
+			.button {
+				padding: 0 1.1em;
+				font-size: 0.9em;
+			}
+		}
+
+		@include breakpoint('<=small') {
+			margin-left: 0;
+
+			li {
+				padding: 0.75em 0.75em 0 0;
+			}
+		}
+
+		@media screen and (max-width: 600px) {
+			li {
+				width: calc(50% - 0.75em);
+				padding-left: 0.75em;
+
+				.button {
+					display: block;
+					width: 100%;
+				}
+			}
+		}
+
+		@media screen and (max-width: 420px) {
+			@include vendor('flex-direction', 'column');
+
+			li {
+				width: 100%;
+				padding: 0.75em 0 0 0;
+			}
+		}
+	}
+
 /* Feature Icons */
 
 	ul.feature-icons {
