@@ -43,3 +43,4 @@ Credits:
 helpful videos: (accessed early 2022)
 	Baeu Carnes @ freeCodeCamp - "How to Put a Website Online: Template, Coding, Domain, Hosting, and DNS" https://www.youtube.com/watch?v=NQP89ish9t8; 
 	Tony Teaches Tech - "How to Use a Custom Domain with GitHub Pages" https://www.youtube.com/watch?v=EX4w9hsduNA
+Other templates I like: https://html5up.net/editorial, https://html5up.net/hyperspace, https://html5up.net/strata, https://html5up.net/dopetrope, https://html5up.net/miniport
