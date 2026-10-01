@@ -10,4 +10,6 @@ h1, h2, h3, h4, h5, h6 { color: #4acaa8; }  /* headings */
 ul.alt li, .features article { border-top-color: #31866f !important; }  /* line separators */
 a { border-bottom-color: #e4e4e4 !important; }  /* no underline by default */
 a:hover {color:#31866f !important; border-bottom-color: #4acaa8 !important; }  /* underline on hover */
+#footer .easter-egg, #footer .easter-egg:hover { color: inherit !important; border-bottom-color: transparent !important; cursor: default; }  /* hidden gif link in copyright "." */
+
 .features article .date { color: #e4e4e4; font-size: 0.85em; font-weight: 700; margin: -1.5em 0 1em 0; }  /* Recent News entry dates */
