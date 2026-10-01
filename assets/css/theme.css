@@ -1,0 +1,13 @@
+body { background-color: #000000 !important; }
+nav { background-color: #31866f !important; }
+#wrapper { background-color: #3f3f3f !important; }
+#footer { background-color: #303030 !important; }
+body, p, li { color: #e4e4e4; } /* body text */
+.button.primary { background-color: #31866f; color: #e4e4e4 !important; }  /* button background/text */
+strong, b, a { color: #4acaa8; }  /* bolds */
+/* strong, b, a { color: #4acaa8; }  bolds */
+h1, h2, h3, h4, h5, h6 { color: #4acaa8; }  /* headings */
+ul.alt li, .features article { border-top-color: #31866f !important; }  /* line separators */
+a { border-bottom-color: #e4e4e4 !important; }  /* no underline by default */
+a:hover { border-bottom-color: #4acaa8 !important; }  /* underline on hover */
+.features article .date { color: #e4e4e4; font-size: 0.85em; font-weight: 700; margin: -1.5em 0 1em 0; }  /* Recent News entry dates */
