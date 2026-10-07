@@ -2738,6 +2738,16 @@ input, select, textarea {
 			width: 48%;
 		}
 
+		.features article .poster-images {
+			display: inline-flex;
+			gap: 1em;
+		}
+
+			.features article .poster-images a {
+				flex: 1;
+				min-width: 0;
+			}
+
 			.features article .image img {
 				display: block;
 				width: 100%;
@@ -3235,6 +3245,10 @@ input, select, textarea {
 				margin: 0 0 2.25em 0;
 				padding-right: 0;
 				width: 100%;
+			}
+
+			.features article .poster-images {
+				display: flex;
 			}
 
 			.features article .inner {
