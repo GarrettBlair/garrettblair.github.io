@@ -14,11 +14,12 @@ a:hover {color:#31866f !important; border-bottom-color: #4acaa8 !important; }  /
 
 .features article .date { color: #e4e4e4; font-size: 0.85em; font-weight: 700; margin: -1.5em 0 1em 0; }  /* Recent News entry dates */
 
-.profile-heading { display: flex; align-items: center; gap: 2em; }
-.profile-heading img { width: 12em; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 35%; flex: 0 0 auto; }
+.profile-heading { display: flex; align-items: center; gap: 1em; }
+.profile-heading picture { flex: 0 0 auto; }
+.profile-heading img { width: 8em; aspect-ratio: auto; object-fit: cover; object-position: center 35%; flex: 0 0 auto; }
 .profile-heading h3 { flex: 1; margin: 0; }
 
 @media screen and (max-width: 736px) {
-	.profile-heading { gap: 1em; }
-	.profile-heading img { width: 7em; }
+	.profile-heading { gap: .5em; }
+	.profile-heading img { width: 5em; aspect-ratio: auto; object-fit: contain; object-position: initial; }
 }
