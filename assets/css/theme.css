@@ -13,3 +13,12 @@ a:hover {color:#31866f !important; border-bottom-color: #4acaa8 !important; }  /
 #footer .easter-egg, #footer .easter-egg:hover { color: inherit !important; border-bottom-color: transparent !important; cursor: default; }  /* hidden gif link in copyright "." */
 
 .features article .date { color: #e4e4e4; font-size: 0.85em; font-weight: 700; margin: -1.5em 0 1em 0; }  /* Recent News entry dates */
+
+.profile-heading { display: flex; align-items: center; gap: 2em; }
+.profile-heading img { width: 12em; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 35%; flex: 0 0 auto; }
+.profile-heading h3 { flex: 1; margin: 0; }
+
+@media screen and (max-width: 736px) {
+	.profile-heading { gap: 1em; }
+	.profile-heading img { width: 7em; }
+}
