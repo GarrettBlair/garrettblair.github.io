@@ -1,671 +1,1087 @@
-﻿<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="index, follow">
-  <meta name="description" content="Meet the students, postdoctoral fellows, and research staff working across the NYU Center for Neural Science.">
-  <meta name="theme-color" content="#f5f4ef">
-  <title>Trainee Directory | Center for Neural Science</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --paper: #ffffff;
-      --white: #fffefa;
-      --ink: #333333;
-      --muted: #666666;
-      --line: #c9c9c9;
-      --green: #57068c;
-      --green-soft: #e4ebe3;
-      --red: #963d32;
-      --serif: "NYUPerstare", Helvetica, Arial, sans-serif;
-      --sans: Helvetica, Arial, sans-serif;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--sans);
-      line-height: 1.55;
-    }
-
-    a { color: inherit; }
-
-    .masthead {
-      border: 0;
-      background: var(--green);
-    }
-
-    .masthead-inner,
-    main,
-    footer {
-      width: min(1100px, calc(100% - 48px));
-      margin-inline: auto;
-    }
-
-    .masthead-inner {
-      display: flex;
-      align-items: center;
-      min-height: 60px;
-      color: #ffffff;
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    main { padding-block: 44px 72px; }
-
-    .intro {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
-      align-items: end;
-      gap: 30px;
-      padding: 20px 0 32px;
-      border-bottom: 0;
-    }
-
-    .eyebrow {
-      margin: 0 0 10px;
-      color: var(--red);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      margin: 0;
-      font-family: var(--serif);
-      color: var(--green);
-      font-family: var(--sans);
-      font-size: 2.8rem;
-      font-weight: 700;
-      line-height: 1.08;
-      text-transform: uppercase;
-    }
-
-    .intro-copy {
-      max-width: 30rem;
-      margin: 14px 0 0;
-      color: var(--muted);
-    }
-
-    .controls {
-      display: grid;
-      grid-template-columns: minmax(210px, 1fr) minmax(190px, 260px) auto;
-      gap: 12px;
-      padding-block: 24px;
-    }
-
-    .controls label {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--muted);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    input,
-    select {
-      width: 100%;
-      min-height: 46px;
-      padding: 10px 12px;
-      border: 1px solid #aeb7ad;
-      border-radius: 2px;
-      background: var(--white);
-      color: var(--ink);
-      font: inherit;
-    }
-
-    .archive-toggle,
-    .compact-toggle {
-      display: flex !important;
-      align-items: center;
-      gap: 8px;
-      align-self: end;
-      min-height: 23px;
-      margin: 0;
-      color: var(--ink) !important;
-      font-size: 0.85rem !important;
-      font-weight: 400 !important;
-      letter-spacing: 0 !important;
-      text-transform: none !important;
-    }
-
-    .archive-toggle input,
-    .compact-toggle input {
-      width: 16px;
-      min-height: 16px;
-      margin: 0;
-      accent-color: var(--green);
-    }
-
-    input:focus,
-    select:focus,
-    a:focus-visible {
-      outline: 3px solid #c57758;
-      outline-offset: 2px;
-    }
-
-    .directory-meta {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 0 0 12px;
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    .role-section { scroll-margin-top: 20px; }
-
-    .role-heading {
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-      margin: 24px 0 0;
-      padding: 8px 0 10px;
-      border-bottom: 1px solid #444444;
-      color: var(--green);
-      font-family: var(--sans);
-      font-size: 1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .role-count {
-      color: var(--muted);
-      font-family: var(--sans);
-      font-size: 0.8rem;
-    }
-
-    .person {
-      display: grid;
-      grid-template-columns: 200px minmax(0, 1fr);
-      gap: 24px;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--line);
-      animation: arrive 320ms ease both;
-    }
-
-    .person.no-photo { grid-template-columns: minmax(0, 1fr); }
-
-    .person img {
-      display: block;
-      grid-column: 1;
-      grid-row: 1;
-      width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
-      background: var(--green-soft);
-    }
-
-    .person-info { grid-column: 2; grid-row: 1; align-self: center; min-width: 0; }
-    .person.no-photo .person-info { grid-column: 1; }
-
-    .person h3 {
-      margin: 0 0 3px;
-      color: var(--green);
-      font-family: var(--sans);
-      font-size: 1.05rem;
-      font-weight: 700;
-      line-height: 1.25;
-    }
-
-    .person-role { margin: 0 0 12px; color: var(--muted); font-weight: 700; }
-    .person-detail { margin: 0; font-size: 0.93rem; }
-
-    .detail-line {
-      display: grid;
-      grid-template-columns: 7.5rem minmax(0, 1fr);
-      column-gap: 0.75rem;
-      align-items: baseline;
-    }
-
-    .detail-label { color: var(--muted); text-align: right; }
-
-    .people-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-      font-size: 0.9rem;
-      animation: arrive 320ms ease both;
-    }
-
-    .people-table th,
-    .people-table td {
-      padding: 7px 12px 7px 0;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-      overflow-wrap: anywhere;
-    }
-
-    .people-table th {
-      color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .name-cell { color: var(--green); font-weight: 700; }
-
-    .sort-menu { position: relative; display: inline-block; margin-left: 4px; }
-    .sort-menu summary { list-style: none; cursor: pointer; }
-    .sort-menu summary::-webkit-details-marker { display: none; }
-    .sort-options {
-      position: absolute;
-      z-index: 2;
-      top: 100%;
-      left: 0;
-      display: grid;
-      min-width: 7.5rem;
-      border: 1px solid var(--line);
-      background: var(--white);
-    }
-    .sort-options button {
-      padding: 6px 10px;
-      border: 0;
-      background: none;
-      color: var(--ink);
-      font: inherit;
-      font-size: 0.8rem;
-      letter-spacing: 0;
-      text-align: left;
-      text-transform: none;
-      cursor: pointer;
-    }
-    .sort-options button[aria-pressed="true"] { color: var(--green); font-weight: 700; }
-
-    .photo-col { width: 76px; text-align: center !important; }
-    .photo-col img {
-      display: block;
-      margin-inline: auto;
-      width: 56px;
-      height: 56px;
-      object-fit: cover;
-      background: var(--green-soft);
-    }
-
-    @media (max-width: 900px) {
-      .photo-col { display: none; }
-    }
-
-    .archived-badge {
-      display: inline-block;
-      margin-left: 6px;
-      padding: 1px 5px;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .people-table td:not(.name-cell) { color: var(--muted); }
-    .people-table td:not(.name-cell) a,
-    .person-detail a { color: var(--ink); text-underline-offset: 3px; overflow-wrap: anywhere; }
-
-    .empty-state,
-    .load-error {
-      margin: 20px 0;
-      padding: 18px;
-      border-left: 3px solid var(--red);
-      background: var(--white);
-      color: var(--muted);
-    }
-
-    .load-error code { color: var(--ink); }
-
-    footer {
-      padding-block: 18px 30px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-
-    [hidden] { display: none !important; }
-
-    @keyframes arrive {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 650px) {
-      .masthead-inner, main, footer { width: min(100% - 32px, 1100px); }
-      main { padding-top: 38px; }
-      .intro { grid-template-columns: 1fr; gap: 12px; }
-      h1 { font-size: 2.35rem; }
-      .controls { grid-template-columns: 1fr; gap: 14px; }
-      .role-section { overflow-x: auto; }
-      .people-table { min-width: 620px; }
-      .person { grid-template-columns: 120px minmax(0, 1fr); gap: 16px; }
-      .directory-meta { align-items: baseline; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; scroll-behavior: auto !important; }
-    }
-  </style>
-</head>
-<body>
-  <header class="masthead">
-    <div class="masthead-inner">NYU  |  Center for Neural Science  |  People</div>
-  </header>
-  <main>
-    <section class="intro" aria-labelledby="page-title">
-      <div>
-        <!-- <p class="eyebrow">Our community</p> -->
-        <h1 id="page-title">Trainee Directory</h1>
-        <p class="intro-copy">Meet the students, postdoctoral fellows, and research staff working across the Center for Neural Science.</p>
-      </div>
-    </section>
-
-    <section class="controls" aria-label="Directory filters">
-      <div>
-        <label for="search">Search trainees</label>
-        <input id="search" type="search" placeholder="Name, email, or lab" autocomplete="off">
-      </div>
-      <div>
-        <label for="role-filter">Filter by role</label>
-        <select id="role-filter"><option value="">All roles</option></select>
-      </div>
-      <div>
-        <label class="archive-toggle" for="show-archived">
-          <input id="show-archived" type="checkbox">
-          See archived profiles
-        </label>
-        <label class="compact-toggle" for="compact-view">
-          <input id="compact-view" type="checkbox" checked>
-          Compact view
-        </label>
-      </div>
-    </section>
-
-    <div class="directory-meta" aria-live="polite">
-      <span id="result-count">Loading directory...</span>
-      <span id="archive-summary">Listed by role</span>
-    </div>
-    <div id="directory" aria-live="polite"></div>
-  </main>
-  <footer>Center for Neural Science</footer>
-
-  <script type="module">
-    import {
-      ARCHIVE_AGE_MONTHS, PUBLISHED_CSV_URL, archiveCutoff, createFacultyLinker, groupByRole,
-      isArchived, latestPeople, parseCsv, siteLinks,
-    } from "./directory-core.js";
-
-    const facultyRosterPath = "sources/faculty-directory.json";
-    const imagePath = "sources/no_image.png";
-    const directory = document.querySelector("#directory");
-    const searchInput = document.querySelector("#search");
-    const roleFilter = document.querySelector("#role-filter");
-    const resultCount = document.querySelector("#result-count");
-    const showArchivedInput = document.querySelector("#show-archived");
-    const archiveSummary = document.querySelector("#archive-summary");
-    const compactInput = document.querySelector("#compact-view");
-    let linkLab = (lab) => [{ text: lab }];
-    let allPeople = [];
-    const sortModes = new Map();
-    const defaultSort = { key: "first", dir: 1 };
-
-    function sortPeople(people, { key, dir }) {
-      const labText = (person) => labContent(person).textContent;
-      const fields = key === "last" ? ["last", "first"] : ["first", "last"];
-      return [...people].sort((a, b) => {
-        if (key === "lab") {
-          const labA = labText(a);
-          const labB = labText(b);
-          // People without a lab stay at the bottom in either direction.
-          if (!labA !== !labB) return labA ? -1 : 1;
-          const result = labA.localeCompare(labB);
-          if (result) return result * dir;
-        } else {
-          const result = a[fields[0]].localeCompare(b[fields[0]]) || a[fields[1]].localeCompare(b[fields[1]]);
-          if (result) return result * dir;
-        }
-        return a.name.localeCompare(b.name);
-      });
-    }
-
-    function makeText(tag, className, text) {
-      const element = document.createElement(tag);
-      if (className) element.className = className;
-      element.textContent = text;
-      return element;
-    }
-
-    function labContent(person) {
-      const content = document.createDocumentFragment();
-      if (!person.lab) return content;
-      const segments = linkLab(person.lab);
-      const faculty = segments.filter((segment) => segment.url);
-      // Unmatched labs fall back to the submitted text.
-      const shown = faculty.length ? faculty : segments;
-      const seen = new Set();
-      for (const segment of shown) {
-        const text = faculty.length ? `${segment.text.trim().split(/\s+/).at(-1)} lab` : segment.text;
-        if (faculty.length && seen.has(text)) continue;
-        seen.add(text);
-        if (content.hasChildNodes()) content.append(document.createTextNode(", "));
-        if (!segment.url) {
-          content.append(document.createTextNode(text));
-          continue;
-        }
-        const link = document.createElement("a");
-        link.href = segment.url;
-        link.textContent = text;
-        content.append(link);
-      }
-      return content;
-    }
-
-    function emailContent(person) {
-      const content = document.createDocumentFragment();
-      if (!person.email.includes("@")) return content;
-      const link = document.createElement("a");
-      link.href = `mailto:${person.email}`;
-      link.textContent = person.email;
-      content.append(link);
-      return content;
-    }
-
-    function siteContent(person) {
-      const content = document.createDocumentFragment();
-      if (!person.website) return content;
-      siteLinks(person.website).forEach((site, index) => {
-        if (index > 0) content.append(document.createTextNode("; "));
-        const link = document.createElement("a");
-        link.href = site.href;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = site.text;
-        content.append(link);
-      });
-      return content;
-    }
-
-    function render(people) {
-      const query = searchInput.value.trim().toLocaleLowerCase();
-      const role = roleFilter.value;
-      const matchingPeople = people.filter((person) => {
-        const matchesRole = !role || person.role === role;
-        const haystack = `${person.name} ${person.email} ${person.lab} ${person.role} ${person.website}`.toLocaleLowerCase();
-        return matchesRole && haystack.includes(query);
-      });
-      const cutoff = archiveCutoff(ARCHIVE_AGE_MONTHS);
-      const archivedPeople = matchingPeople.filter((person) => isArchived(person, cutoff));
-      const currentPeople = matchingPeople.filter((person) => !isArchived(person, cutoff));
-      const visible = showArchivedInput.checked
-        ? archivedPeople
-        : currentPeople;
-      resultCount.textContent = `${visible.length} ${visible.length === 1 ? "person" : "people"}`;
-      archiveSummary.textContent = showArchivedInput.checked
-        ? "Showing archived profiles"
-        : `${archivedPeople.length} archived hidden`;
-      directory.replaceChildren();
-
-      if (!visible.length) {
-        directory.append(makeText("p", "empty-state", "No trainees match your search."));
-        return;
-      }
-
-      for (const [groupName, groupPeople] of groupByRole(visible)) {
-        const section = document.createElement("section");
-        section.className = "role-section";
-        const heading = makeText("h2", "role-heading", groupName);
-        heading.append(makeText("span", "role-count", String(groupPeople.length)));
-        section.append(heading);
-        section.append(compactInput.checked ? buildTable(groupName, groupPeople, cutoff) : buildCards(groupPeople, cutoff));
-        directory.append(section);
-      }
-    }
-
-    function buildCards(groupPeople, cutoff) {
-      const list = document.createElement("div");
-      for (const person of groupPeople) {
-        const article = document.createElement("article");
-        const archived = isArchived(person, cutoff);
-        article.className = archived ? "person is-archived" : "person";
-        const image = document.createElement("img");
-        image.src = imagePath;
-        image.alt = `Placeholder portrait for ${person.name}`;
-        image.addEventListener("error", () => {
-          image.remove();
-          article.classList.add("no-photo");
-        }, { once: true });
-        article.append(image);
-
-        const details = document.createElement("div");
-        details.className = "person-info";
-        details.append(makeText("h3", "", person.name));
-        if (archived) details.append(makeText("span", "archived-badge", "Archived"));
-        if (person.role) details.append(makeText("p", "person-role", person.role));
-        const detailList = document.createElement("p");
-        detailList.className = "person-detail";
-        const affiliationContent = document.createDocumentFragment();
-        if (person.previousAffiliation) affiliationContent.append(document.createTextNode(person.previousAffiliation));
-        for (const [label, content] of [["Lab", labContent(person)], ["Email", emailContent(person)], ["Prior affiliation", affiliationContent], ["Site", siteContent(person)]]) {
-          if (!content.hasChildNodes()) continue;
-          const line = makeText("span", "detail-line", "");
-          line.append(makeText("span", "detail-label", label));
-          const value = document.createElement("span");
-          value.append(content);
-          line.append(value);
-          detailList.append(line);
-        }
-        details.append(detailList);
-        article.append(details);
-        list.append(article);
-      }
-      return list;
-    }
-
-    function buildTable(groupName, groupPeople, cutoff) {
-        const mode = sortModes.get(groupName) || defaultSort;
-        const sortChoices = {
-          Name: [["first", 1, "First name A\u2013Z"], ["first", -1, "First name Z\u2013A"], ["last", 1, "Last name A\u2013Z"], ["last", -1, "Last name Z\u2013A"]],
-          "Lab(s)": [["lab", 1, "A\u2013Z"], ["lab", -1, "Z\u2013A"]],
-        };
-        const table = document.createElement("table");
-        table.className = "people-table";
-        const headRow = table.createTHead().insertRow();
-        for (const label of ["Photo", "Name", "Lab(s)", "Email", "Website"]) {
-          const th = makeText("th", label === "Photo" ? "photo-col" : "", label === "Photo" ? "" : label);
-          if (label === "Photo") th.setAttribute("aria-label", "Photo");
-          th.scope = "col";
-          if (sortChoices[label]) {
-            const menu = document.createElement("details");
-            menu.className = "sort-menu";
-            const summary = makeText("summary", "", "\u25BE");
-            summary.setAttribute("aria-label", `Sort ${label}`);
-            const options = document.createElement("div");
-            options.className = "sort-options";
-            for (const [key, dir, text] of sortChoices[label]) {
-              const button = makeText("button", "", text);
-              button.type = "button";
-              button.setAttribute("aria-pressed", String(mode.key === key && mode.dir === dir));
-              button.addEventListener("click", () => {
-                sortModes.set(groupName, { key, dir });
-                render(allPeople);
-              });
-              options.append(button);
-            }
-            menu.append(summary, options);
-            th.append(menu);
-          }
-          headRow.append(th);
-        }
-        const body = table.createTBody();
-
-        for (const person of sortPeople(groupPeople, mode)) {
-          const archived = isArchived(person, cutoff);
-          const row = body.insertRow();
-          if (archived) row.className = "is-archived";
-          const photoCell = row.insertCell();
-          photoCell.className = "photo-col";
-          const image = document.createElement("img");
-          image.src = imagePath;
-          image.alt = `Placeholder portrait for ${person.name}`;
-          image.addEventListener("error", () => image.remove(), { once: true });
-          photoCell.append(image);
-          const nameCell = row.insertCell();
-          nameCell.className = "name-cell";
-          nameCell.append(person.name);
-          if (archived) nameCell.append(makeText("span", "archived-badge", "Archived"));
-
-          const labValue = row.insertCell();
-          labValue.append(labContent(person));
-          row.insertCell().append(emailContent(person));
-          row.insertCell().append(siteContent(person));
-        }
-        return table;
-    }
-
-    async function loadDirectory() {
-      try {
-        const facultyResponse = await fetch(facultyRosterPath);
-        if (!facultyResponse.ok) throw new Error(`Faculty roster request returned ${facultyResponse.status}`);
-        const facultyRoster = await facultyResponse.json();
-        linkLab = createFacultyLinker(Array.isArray(facultyRoster.faculty) ? facultyRoster.faculty : []);
-      } catch (error) {
-        console.warn("Unable to load faculty profile links", error);
-      }
-
-      try {
-        const response = await fetch(PUBLISHED_CSV_URL);
-        if (!response.ok) throw new Error(`CSV request returned ${response.status}`);
-        const people = latestPeople(parseCsv(await response.text()));
-        allPeople = people;
-        const roles = [...new Set(people.map((person) => person.role).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-        for (const role of roles) {
-          const option = document.createElement("option");
-          option.value = role;
-          option.textContent = role;
-          roleFilter.append(option);
-        }
-        render(people);
-        searchInput.addEventListener("input", () => render(people));
-        roleFilter.addEventListener("change", () => render(people));
-        showArchivedInput.addEventListener("change", () => render(people));
-        compactInput.addEventListener("change", () => render(people));
-      } catch (error) {
-        resultCount.textContent = "";
-        const message = document.createElement("p");
-        message.className = "load-error";
-        message.textContent = "Trainee directory data failed to load. Please contact CNS IT";
-        directory.replaceChildren(message);
-        console.error("Unable to load trainee directory", error);
-      }
-    }
-
-    loadDirectory();
-  </script>
-</body>
-</html>
+<!-- CNS trainee directory, generated 2026-10-08T16:55:09.911Z from the published sheet. Regenerate with: npm run build:embed -->
+<div id="cns-trainee-directory" style="font-family:Helvetica,Arial,sans-serif;color:#333333;line-height:1.5;">
+<p style="margin:0 0 8px;text-align:center;"><a href="#cns-role-phd-student" style="color:#57068c;">PhD Student</a> | <a href="#cns-role-philosophy-department-faculty" style="color:#57068c;">Philosophy Department Faculty</a> | <a href="#cns-role-postdoc" style="color:#57068c;">Postdoc</a> | <a href="#cns-role-research-scientist" style="color:#57068c;">Research Scientist</a> | <a href="#cns-role-research-technician" style="color:#57068c;">Research Technician</a> | <a href="#cns-role-senior-research-technician" style="color:#57068c;">Senior Research Technician</a> | <a href="#cns-role-teaching-laboratory-manager" style="color:#57068c;">Teaching Laboratory Manager</a></p>
+<h2 id="cns-role-phd-student" style="margin:24px 0 0;padding:8px 0 10px;border-bottom:1px solid #444444;color:#57068c;font-size:1em;font-weight:700;text-transform:uppercase;">PhD Student <span style="color:#666666;font-size:0.8em;font-weight:400;">63</span></h2>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">(Julie) Xueyan Niu</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.eero-p-simoncelli.html" style="color:#57068c;">Eero Simoncelli</a>, <a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.cristina-savin.html" style="color:#57068c;">Cristina Savin</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:xn314@nyu.edu" style="color:#57068c;">xn314@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">The University of Hong Kong</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for (Julie) Xueyan Niu" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Aaron Lanz</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/katherine-nagel" style="color:#57068c;">Nagel</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ajl787@nyu.edu" style="color:#57068c;">ajl787@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Calgary</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Aaron Lanz" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Alan Lai</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Wang/<a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.xiaojing-wang.html" style="color:#57068c;">Xiao-Jing Wang</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:al5798@nyu.edu" style="color:#57068c;">al5798@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Carnegie Mellon University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Alan Lai" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Alisha Ahmed</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.alex-williams.html" style="color:#57068c;">Alex Williams</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:aaa9861@nyu.edu" style="color:#57068c;">aaa9861@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Texas at Austin</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://alishahmed.github.io/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Alisha Ahmed" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Amanda Amilcar</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/tanya-c-sippy" style="color:#57068c;">Sippy</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:aa6530@nyu.edu" style="color:#57068c;">aa6530@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Columbia University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Amanda Amilcar" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Amelia Orwant</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.roozbeh-kiani.html" style="color:#57068c;">Kiani</a> Lab</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ao2927@nyu.edu" style="color:#57068c;">ao2927@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Chicago</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/amelia-orwant-831915217" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Amelia Orwant" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Andrew Aoun</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.alex-williams.html" style="color:#57068c;">Alex Williams</a> and <a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.roozbeh-kiani.html" style="color:#57068c;">Roozbeh Kiani</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:aa12070@nyu.edu" style="color:#57068c;">aa12070@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Brown University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Andrew Aoun" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Andy Garcia</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.andre-fenton.html" style="color:#57068c;">Fenton</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ag8768@nyu.edu" style="color:#57068c;">ag8768@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Florida International University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Andy Garcia" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Annie Liu</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.christine-constantinople.html" style="color:#57068c;">Constantinople</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:annie.liu3@nyulangone.org" style="color:#57068c;">annie.liu3@nyulangone.org</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Washington University in St. Louis</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Annie Liu" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Argha Bandyopadhyay</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.alex-williams.html" style="color:#57068c;">Alex Williams</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:argha.bandyopadhyay@nyulangone.org" style="color:#57068c;">argha.bandyopadhyay@nyulangone.org</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Texas at Austin</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://argha-bandyopadhyay.github.io/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Argha Bandyopadhyay" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Ariadna Corredera</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.david-schneider.html" style="color:#57068c;">Schneider</a> Lab</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:correa09@nyu.edu" style="color:#57068c;">correa09@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Barcelona</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://linkedin.com/in/ariadna-corredera-asensio-54555a156" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Ariadna Corredera" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Ariadna Corredera Asensio</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.david-schneider.html" style="color:#57068c;">Schneider</a> Lab</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:correa09@nyu.edu" style="color:#57068c;">correa09@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Barcelona</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/ariadna-corredera-asensio-54555a156/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Ariadna Corredera Asensio" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Ayaka Hachisuka</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/biyu-j-he" style="color:#57068c;">Biyu He</a> (Perception &amp; Brain Dynamics Laboratory)</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ah5385@nyu.edu" style="color:#57068c;">ah5385@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">UCLA</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://scholar.google.com/citations?user=uKVqgq4AAAAJ&amp;hl=en" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Google Scholar</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Ayaka Hachisuka" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Beatriz de la Rea</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/niels-ringstad" style="color:#57068c;">Ringstad</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:beatriz.delarea@nyu.edu" style="color:#57068c;">beatriz.delarea@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">NYU (undergrad)</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Beatriz de la Rea" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Benjamin Lyo</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.cristina-savin.html" style="color:#57068c;">Cristina Savin</a>, <a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.eero-p-simoncelli.html" style="color:#57068c;">Eero Simoncelli</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:blyo@nyu.edu" style="color:#57068c;">blyo@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Chicago</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.benlyo.net" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Benjamin Lyo" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Brenda Leyva Garcia</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">First-year Rotation Student</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:bvl6450@nyu.edu" style="color:#57068c;">bvl6450@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Smith College</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/brenda-leyva-garcia/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Brenda Leyva Garcia" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Catherine Leckie</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/orna-issler" style="color:#57068c;">Orna Issler</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:catherine.leckie@nyulangone.org" style="color:#57068c;">catherine.leckie@nyulangone.org</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Johns Hopkins University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Catherine Leckie" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Celine Bellegarda</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/david-schoppik" style="color:#57068c;">David Schoppik</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ccb9497@nyu.edu" style="color:#57068c;">ccb9497@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of California, Berkeley</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Celine Bellegarda" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Chloe Mengden</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/dayu-lin" style="color:#57068c;">Dayu Lin</a> / <a href="https://med.nyu.edu/faculty/robert-c-froemke" style="color:#57068c;">Robert Froemke</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:cm6457@nyu.edu" style="color:#57068c;">cm6457@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Vassar College</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/chloe-mengden" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Chloe Mengden" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Christian Puzzo</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.anders-nelson.html" style="color:#57068c;">Anders Nelson</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:cdp4040@nyu.edu" style="color:#57068c;">cdp4040@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Alabama at Birmingham</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Christian Puzzo" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Daniel Hașegan</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/biyu-j-he" style="color:#57068c;">Biyu He</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:dh3265@nyu.edu" style="color:#57068c;">dh3265@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Jacobs University Bremen</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://daniel.hasegan.com/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Daniel Hașegan" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Daniel Zheng</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Perception &amp; Brain Dynamics Laboratory / Dr. <a href="https://med.nyu.edu/faculty/biyu-j-he" style="color:#57068c;">Biyu He</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:fz2264@nyu.edu" style="color:#57068c;">fz2264@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">McGill University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Daniel Zheng" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Danilo Perez</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.cristina-savin.html" style="color:#57068c;">Savin</a>/<a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.christine-constantinople.html" style="color:#57068c;">Constantinople</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:dp2650@nyu.edu" style="color:#57068c;">dp2650@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">UPR Cayey</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Danilo Perez" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Duc Nguyen</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.paul-glimcher.html" style="color:#57068c;">Glimcher</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:dmn9844@nyu.edu" style="color:#57068c;">dmn9844@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">UC Berkeley</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Duc Nguyen" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Elisa Chinigò</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/gyorgy-buzsaki" style="color:#57068c;">György Buzsáki</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ec4513@nyu.edu" style="color:#57068c;">ec4513@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University College London (UCL)</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Elisa Chinigò" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Elliott Capek</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.christine-constantinople.html" style="color:#57068c;">Constantinople</a> / <a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.alex-williams.html" style="color:#57068c;">Williams</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:elc415@nyu.edu" style="color:#57068c;">elc415@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Oregon State University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Elliott Capek" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Eric Tao</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/katherine-nagel" style="color:#57068c;">Katherine Nagel</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:Eric.Tao@nyulangone.org" style="color:#57068c;">Eric.Tao@nyulangone.org</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Pennsylvania</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Eric Tao" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Estelle in &#39;t Zandt</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.dan-h-sanes.html" style="color:#57068c;">Dan Sanes</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:eei3718@nyu.edu" style="color:#57068c;">eei3718@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Florida</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Estelle in &#39;t Zandt" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Fisher Theodore</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/shane-a-liddelow" style="color:#57068c;">Liddelow</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:theodore.fisher@nyulangone.org" style="color:#57068c;">theodore.fisher@nyulangone.org</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Northeastern University</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/theodore-fisher/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Fisher Theodore" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Gabriel Yancy</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.eero-p-simoncelli.html" style="color:#57068c;">Simoncelli</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:gmy225@nyu.edu" style="color:#57068c;">gmy225@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Fordham University</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://gabrielyancy99.github.io" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Gabriel Yancy" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Gabriela Forcinito</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.dan-h-sanes.html" style="color:#57068c;">Dan Sanes</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:gabriela.evanoffforcinito@nyulangone.org" style="color:#57068c;">gabriela.evanoffforcinito@nyulangone.org</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Barnard College</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Gabriela Forcinito" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Hannah Gelnaw</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.andre-fenton.html" style="color:#57068c;">Fenton</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:gelnah01@nyu.edu" style="color:#57068c;">gelnah01@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Vanderbilt University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Hannah Gelnaw" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Isabel Garon</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.alex-williams.html" style="color:#57068c;">Williams</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:isabelgaron@nyu.edu" style="color:#57068c;">isabelgaron@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Chicago</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Isabel Garon" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Isabella Rischall</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.roozbeh-kiani.html" style="color:#57068c;">Kiani</a> Lab</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:imr8238@nyu.edu" style="color:#57068c;">imr8238@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Undergrad: Northwestern University, Post-bacc: Columbia University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Isabella Rischall" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Jared Plotkin</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://nyulangone.org/doctors/1639348733/jing-wang" style="color:#57068c;">Jing Wang</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:jared.plotkin@nyulangone.org" style="color:#57068c;">jared.plotkin@nyulangone.org</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Jared Plotkin" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Jeroen Olieslagers</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.weiji-ma.html" style="color:#57068c;">Wei Ji Ma</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:jeroen@nyu.edu" style="color:#57068c;">jeroen@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Cambridge</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.jeroen.science/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Jeroen Olieslagers" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Jordan Lei</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.weiji-ma.html" style="color:#57068c;">Wei Ji Ma</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:jordan.lei@nyu.edu" style="color:#57068c;">jordan.lei@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Pennsylvania</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://jordanlei.com" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Jordan Lei" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Keelin O&#39;Neil</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/jayeeta-basu" style="color:#57068c;">Jayeeta Basu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:kmo403@nyu.edu" style="color:#57068c;">kmo403@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">UW-Madison</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/keelin-o-neil-736159133/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Keelin O&#39;Neil" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Kim Jeong Woo</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/michael-a-long" style="color:#57068c;">Michael Long</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:jk7334@nyu.edu" style="color:#57068c;">jk7334@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Brown University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Kim Jeong Woo" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Luke Arend</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.andre-fenton.html" style="color:#57068c;">Fenton</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:luke.arend@nyu.edu" style="color:#57068c;">luke.arend@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Bethel University</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://linktr.ee/lukearend" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Linktree</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Luke Arend" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Michael O&#39;Dea</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/shane-a-liddelow" style="color:#57068c;">Shane Liddelow</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:Michael" style="color:#57068c;">Michael</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Notre Dame</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://scholar.google.com/citations?user=3luAOPAAAAAJ&amp;hl=en&amp;oi=ao" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Google Scholar</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Michael O&#39;Dea" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Myra Granato</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/alice-c-mosberger" style="color:#57068c;">Alice Mosberger</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:meg10012@nyu.edu" style="color:#57068c;">meg10012@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Johns Hopkins University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Myra Granato" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Nina Harano</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/einar-m-sigurdsson" style="color:#57068c;">Einar Sigurdsson</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:nh1830@nyu.edu" style="color:#57068c;">nh1830@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Columbia University (undergrad)</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Nina Harano" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Phelix Rodriguez</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.erin-rich.html" style="color:#57068c;">Erin Rich</a> (rotation)</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:sar9380@nyu.edu" style="color:#57068c;">sar9380@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">The Ohio State University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Phelix Rodriguez" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Saeed Karimimehr</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/dmitry-rinberg" style="color:#57068c;">Rinberg</a> lab/<a href="https://med.nyu.edu/faculty/dmitry-rinberg" style="color:#57068c;">Dmitry Rinberg</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:sk7984@nyu.edu" style="color:#57068c;">sk7984@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Isfahan University of Technology</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Saeed Karimimehr" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Sam Merrow</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Rotating</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:Sam9843@nyu.edu" style="color:#57068c;">Sam9843@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Simmons University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Sam Merrow" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Sam Zheng</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.alex-williams.html" style="color:#57068c;">Alex Williams</a> and <a href="https://med.nyu.edu/faculty/gyorgy-buzsaki" style="color:#57068c;">Gyorgy Buzsaki</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:zz737@nyu.edu" style="color:#57068c;">zz737@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Chicago</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://samdeoxys1.github.io/blog/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Sam Zheng" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Samantha Davis</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/david-schoppik" style="color:#57068c;">Schoppik</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:snd8969@nyu.edu" style="color:#57068c;">snd8969@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Ohio University (BS), University of Washington (AuD)</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Samantha Davis" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Sanne Casello</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.adam-carter.html" style="color:#57068c;">Carter</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:smc9955@nyu.edu" style="color:#57068c;">smc9955@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Washington, Seattle</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/sanne-casello-6b316917b/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Sanne Casello" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Shan Zhoukuidong</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Li Li</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:sz68@nyu.edu" style="color:#57068c;">sz68@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">East China Normal University</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://github.com/SamZebrado" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Shan Zhoukuidong" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Shujun Xiong</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.alex-williams.html" style="color:#57068c;">Alex Williams</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:jx2837@nyu.edu" style="color:#57068c;">jx2837@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://xiongshujun.github.io/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Shujun Xiong" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Sonica Saraf</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.j-anthony-movshon.html" style="color:#57068c;">Movshon</a> and Chung</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ss6786@nyu.edu" style="color:#57068c;">ss6786@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Carnegie Mellon University</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.cns.nyu.edu/~saraf/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Sonica Saraf" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Srinidhi Venkatesan Kalavai</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.eric-klann.html" style="color:#57068c;">Eric Klann</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:sv1164@nyu.edu" style="color:#57068c;">sv1164@nyu.edu</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Srinidhi Venkatesan Kalavai" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Stanley Park</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/biyu-j-he" style="color:#57068c;">Biyu He</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:jp7477@nyu.edu" style="color:#57068c;">jp7477@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Undergrad: Duke University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Stanley Park" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Suha Chang</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.david-schneider.html" style="color:#57068c;">David Schneider</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:sc10282@nyu.edu" style="color:#57068c;">sc10282@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Chicago</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Suha Chang" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Sun Jiaqiu Vince</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Xing Tian</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:vince.sun@nyu.edu" style="color:#57068c;">vince.sun@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Architecture, Tongji University</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://jvsun.com" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Sun Jiaqiu Vince" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Taylor Moniz</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Rotating (<a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.eric-klann.html" style="color:#57068c;">Klann</a> and Zhang)</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:taylor.moniz@nyulangone.org" style="color:#57068c;">taylor.moniz@nyulangone.org</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Undergrad Institutions: Columbia University, Trinity College Dublin (BAs from both)</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/taylor-ma-moniz/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Taylor Moniz" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Tyrique Richardson</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Dr. <a href="https://med.nyu.edu/faculty/orna-issler" style="color:#57068c;">Orna Issler</a>/Dr. <a href="https://med.nyu.edu/faculty/robert-c-froemke" style="color:#57068c;">Robert Froemke</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:TR1415@nyu.edu" style="color:#57068c;">TR1415@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Earlham College/Mayo Clinic</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Tyrique Richardson" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Violet Ivan</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/robert-c-froemke" style="color:#57068c;">Froemke</a> and <a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.dan-h-sanes.html" style="color:#57068c;">Sanes</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:vji2004@nyu.edu" style="color:#57068c;">vji2004@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Massachusetts Amherst for BS and Rockefeller University as an RA before NYU</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/violet-ivan/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Violet Ivan" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Xinyuan Zhao</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.eero-p-simoncelli.html" style="color:#57068c;">Eero Simoncelli</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:xz2556@nyu.edu" style="color:#57068c;">xz2556@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Peking University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Xinyuan Zhao" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Yanqiqi Zeng</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/claude-desplan" style="color:#57068c;">Claude Desplan</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:yz10929@nyu.edu" style="color:#57068c;">yz10929@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Colby College</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://wp.nyu.edu/desplanlab/members-4/yanqiqi-zeng-sketch/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Yanqiqi Zeng" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Yuki Fujishima</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://med.nyu.edu/faculty/michael-a-long" style="color:#57068c;">Michael Long</a> / <a href="https://med.nyu.edu/faculty/gyorgy-buzsaki" style="color:#57068c;">György Buzsáki</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:yf2224@nyu.edu" style="color:#57068c;">yf2224@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Kyushu University</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://yukifujishima.com/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Yuki Fujishima" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Zihua (James) Chen</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">PhD Student</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Long</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:zihua.chen@nyu.edu" style="color:#57068c;">zihua.chen@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">New York University Shanghai</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://scholar.google.com/citations?user=lBn_NuAAAAAJ&amp;hl=en" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Google Scholar</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Zihua (James) Chen" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<h2 id="cns-role-philosophy-department-faculty" style="margin:24px 0 0;padding:8px 0 10px;border-bottom:1px solid #444444;color:#57068c;font-size:1em;font-weight:700;text-transform:uppercase;">Philosophy Department Faculty <span style="color:#666666;font-size:0.8em;font-weight:400;">1</span></h2>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Ned Block</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Philosophy Department Faculty</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Me</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ned.block@nyu.edu" style="color:#57068c;">ned.block@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.nedblock.us" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Ned Block" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<h2 id="cns-role-postdoc" style="margin:24px 0 0;padding:8px 0 10px;border-bottom:1px solid #444444;color:#57068c;font-size:1em;font-weight:700;text-transform:uppercase;">Postdoc <span style="color:#666666;font-size:0.8em;font-weight:400;">30</span></h2>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Adithya Rajagopalan</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.christine-constantinople.html" style="color:#57068c;">Constantinople</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:are314@nyu.edu" style="color:#57068c;">are314@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Johns Hopkins + Janelia Research Campus</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://rajagopalana.github.io/adithyarajagopalan/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Adithya Rajagopalan" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Alessandro La Chioma</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.david-schneider.html" style="color:#57068c;">David Schneider</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:al6978@nyu.edu" style="color:#57068c;">al6978@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Max Planck Institute of Neurobiology, Munich</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Alessandro La Chioma" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Amber Kline</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.david-schneider.html" style="color:#57068c;">Schneider</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:amk9799@nyu.edu" style="color:#57068c;">amk9799@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of North Carolina</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Amber Kline" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Aster Perkins</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.christine-constantinople.html" style="color:#57068c;">Constantinople</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ap9458@nyu.edu" style="color:#57068c;">ap9458@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Icahn School of Medicine at Mount Sinai</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Aster Perkins" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Carla Golden</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.christine-constantinople.html" style="color:#57068c;">Constantinople</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:Cg163@nyu.edu" style="color:#57068c;">Cg163@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Icahn School of Medicine at Mount Sinai</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://carlaemgolden.weebly.com/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Carla Golden" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Charlie L. Rodríguez Deliz</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.erin-rich.html" style="color:#57068c;">Erin Rich</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:crd373@nyu.edu" style="color:#57068c;">crd373@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Puerto Rico at Ponce (undergrad); NYU CNS (grad)</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Charlie L. Rodríguez Deliz" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Charlie Sheehan</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.eric-klann.html" style="color:#57068c;">Eric Klann</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:cs7904@nyu.edu" style="color:#57068c;">cs7904@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Virginia - B.S., Duke University - Ph.D.</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/charlie-sheehan-913894a9/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Charlie Sheehan" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">David Hocker</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.christine-constantinople.html" style="color:#57068c;">Constantinople</a>, <a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.cristina-savin.html" style="color:#57068c;">Savin</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:dh148@nyu.edu" style="color:#57068c;">dh148@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Indiana University (BS), Princeton University (PhD)</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for David Hocker" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Dorothee Guenther</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.anders-nelson.html" style="color:#57068c;">Nelson</a> Lab</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:dg4771@nyu.edu" style="color:#57068c;">dg4771@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Ernst Struengmann Institute</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Dorothee Guenther" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Ece Sakalar</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.adam-carter.html" style="color:#57068c;">Carter</a> Lab/<a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.adam-carter.html" style="color:#57068c;">Adam Carter</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:es4440@nyu.edu" style="color:#57068c;">es4440@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Center for Brain Research, Vienna</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://ecesakalar.github.io/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Ece Sakalar" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Elaida Dimwamwa</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.david-schneider.html" style="color:#57068c;">David Schneider</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:edd8290@nyu.edu" style="color:#57068c;">edd8290@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">PhD: Georgia Institute of Technology &amp; Emory University; Undergrad: University of Pennsylvania</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Elaida Dimwamwa" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Elias Mateo Fernandez Santoro</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.j-anthony-movshon.html" style="color:#57068c;">Movshon</a> Lab/Najib Majaj</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ef2811@nyu.edu" style="color:#57068c;">ef2811@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Erasmus Medical Center, Rotterdam, The Netherlands</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Elias Mateo Fernandez Santoro" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Florentin Guth</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.eero-p-simoncelli.html" style="color:#57068c;">Eero Simoncelli</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:florentin.guth@nyu.edu" style="color:#57068c;">florentin.guth@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Ecole Normale Supérieure</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://florentinguth.github.io/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Florentin Guth" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Garrett Blair</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.andre-fenton.html" style="color:#57068c;">André Fenton</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:garrett.blair@nyu.edu" style="color:#57068c;">garrett.blair@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">UCLA</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://garrettjblair.com" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Garrett Blair" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Guy Ohayon</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.eero-p-simoncelli.html" style="color:#57068c;">Eero Simoncelli</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:gohayon@flatironinstitute.org" style="color:#57068c;">gohayon@flatironinstitute.org</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Technion-Israel Institute of Technology</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.guyohayon.com" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Guy Ohayon" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Han Jiyeon</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.andre-fenton.html" style="color:#57068c;">Andre Fenton</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:jh9906@nyu.edu" style="color:#57068c;">jh9906@nyu.edu</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Han Jiyeon" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Harsha Gurnani</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.cristina-savin.html" style="color:#57068c;">Cristina Savin</a> and <a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.christine-constantinople.html" style="color:#57068c;">Christine Constantinople</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:hg3206@nyu.edu" style="color:#57068c;">hg3206@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University College London (PhD)</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://harshagurnani.github.io/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Harsha Gurnani" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Jessica Gaunt</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.cristina-maria-alberini.html" style="color:#57068c;">Cristina Alberini</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:jrg9917@nyu.edu" style="color:#57068c;">jrg9917@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of Bristol (PhD); Nanyang Technological University (postdoc)</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Jessica Gaunt" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Joey Charbonneau</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.erin-rich.html" style="color:#57068c;">Erin Rich</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:jac1183@nyu.edu" style="color:#57068c;">jac1183@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of California Davis</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.joeycharbonneau.com" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Joey Charbonneau" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">John Hongyu Meng</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.xiaojing-wang.html" style="color:#57068c;">Xiao-Jing Wang</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:john.meng@nyu.edu" style="color:#57068c;">john.meng@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Northwestern University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for John Hongyu Meng" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Laura Palmieri</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.j-anthony-movshon.html" style="color:#57068c;">Movshon</a> Lab</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:lp3006@nyu.edu" style="color:#57068c;">lp3006@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">NIH (USA) and Newcastle University (UK)</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Laura Palmieri" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Liu Yue</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.xiaojing-wang.html" style="color:#57068c;">Xiao-Jing Wang</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:yl4317@nyu.edu" style="color:#57068c;">yl4317@nyu.edu</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Liu Yue" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Margaret DeMaegd</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.christine-constantinople.html" style="color:#57068c;">Constantinople</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:mld9131@nyu.edu" style="color:#57068c;">mld9131@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Illinois State University</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://constantinoplelab.com/group/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Margaret DeMaegd" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Pierre-Etienne Fiquet</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.eero-p-simoncelli.html" style="color:#57068c;">Simoncelli</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:pef246@nyu.edu" style="color:#57068c;">pef246@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">NYU</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://users.flatironinstitute.org/~pfiquet/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Pierre-Etienne Fiquet" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Sebastian Waz</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Zhong-Lin Lu</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:scw8734@nyu.edu" style="color:#57068c;">scw8734@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">University of California-Irvine</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://scholar.google.com/citations?user=HUcXrycAAAAJ&amp;hl=en" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Google Scholar</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Sebastian Waz" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Susan Benear</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">Hartley</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:susanbenear@nyu.edu" style="color:#57068c;">susanbenear@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Temple University</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://susanbenear.github.io/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Susan Benear" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Tianshu Li</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.xiaojing-wang.html" style="color:#57068c;">Xiao-Jing Wang</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:tianshuli@nyu.edu" style="color:#57068c;">tianshuli@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Stony Brook University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Tianshu Li" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Wenyi Zhang</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.roozbeh-kiani.html" style="color:#57068c;">Roozbeh Kiani</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:wz2891@nyu.edu" style="color:#57068c;">wz2891@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Institute of Neuroscience (ION), Chinese Academy of Sciences</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Wenyi Zhang" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Yosif Zaki</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.andre-fenton.html" style="color:#57068c;">André Fenton</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:joezaki.95@gmail.com" style="color:#57068c;">joezaki.95@gmail.com</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Icahn School of Medicine at Mount Sinai</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://joezaki.org" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Personal Site</a>; <a href="https://scholar.google.com/citations?authuser=1&amp;hl=en&amp;oi=ao&amp;user=ZgdvPvoAAAAJ" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Google Scholar</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Yosif Zaki" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Yue Liu</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Postdoc</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.xiaojing-wang.html" style="color:#57068c;">Xiao-Jing Wang</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:yl4317@nyu.edu" style="color:#57068c;">yl4317@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Boston University</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Yue Liu" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<h2 id="cns-role-research-scientist" style="margin:24px 0 0;padding:8px 0 10px;border-bottom:1px solid #444444;color:#57068c;font-size:1em;font-weight:700;text-transform:uppercase;">Research Scientist <span style="color:#666666;font-size:0.8em;font-weight:400;">7</span></h2>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Feng-Kuei Chiang</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Research Scientist</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">DR. <a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.erin-rich.html" style="color:#57068c;">Erin Rich</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:fc2617@nyu.edu" style="color:#57068c;">fc2617@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">UC Berkeley</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://scholar.google.com/citations?user=euSs9RMAAAAJ&amp;hl=en" style="color:#57068c;" target="_blank" rel="noopener noreferrer">Google Scholar</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Feng-Kuei Chiang" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Per-Niklas Barth</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Research Scientist</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.david-schneider.html" style="color:#57068c;">David Schneider</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:pb2454@nyu.edu" style="color:#57068c;">pb2454@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">NYU</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Per-Niklas Barth" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Rue Wakefield</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Research Scientist</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.christine-constantinople.html" style="color:#57068c;">Constantinople</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:rcw346@nyu.edu" style="color:#57068c;">rcw346@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">NYU undergrad (BS in neuro)</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Rue Wakefield" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Sohyun Moon</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Research Scientist</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.cristina-maria-alberini.html" style="color:#57068c;">Cristina Alberini</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:sm13782@nyu.edu" style="color:#57068c;">sm13782@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://www.linkedin.com/in/sohyun-moon-a97357355/" style="color:#57068c;" target="_blank" rel="noopener noreferrer">LinkedIn</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Sohyun Moon" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Talia Heath</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Research Scientist</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.danique-jeurissen.html" style="color:#57068c;">Jeurissen</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:tsh3760@nyu.edu" style="color:#57068c;">tsh3760@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">NYU - undergrad</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Talia Heath" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Valentina Vencato</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Research Scientist</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.dora-angelaki.html" style="color:#57068c;">Angelaki</a> and <a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.j-anthony-movshon.html" style="color:#57068c;">Movshon</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:vv2247@nyu.edu" style="color:#57068c;">vv2247@nyu.edu</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Valentina Vencato" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Xuefei Yu</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Research Scientist</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.danique-jeurissen.html" style="color:#57068c;">Danique Jeurissen</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:xy1019@nyu.edu" style="color:#57068c;">xy1019@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">Chinese Academy of Sciences, National Institute of Sciences</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Site</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://github.com/xuefeiyu2015" style="color:#57068c;" target="_blank" rel="noopener noreferrer">GitHub</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Xuefei Yu" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<h2 id="cns-role-research-technician" style="margin:24px 0 0;padding:8px 0 10px;border-bottom:1px solid #444444;color:#57068c;font-size:1em;font-weight:700;text-transform:uppercase;">Research Technician <span style="color:#666666;font-size:0.8em;font-weight:400;">1</span></h2>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Eve Mendelevich</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Research Technician</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.danique-jeurissen.html" style="color:#57068c;">Danique Jeurissen</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ym1020@nyu.edu" style="color:#57068c;">ym1020@nyu.edu</a></span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Prior affiliation</span><span style="min-width:0;overflow-wrap:anywhere;">NYU (B.A. 2017)</span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Eve Mendelevich" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<h2 id="cns-role-senior-research-technician" style="margin:24px 0 0;padding:8px 0 10px;border-bottom:1px solid #444444;color:#57068c;font-size:1em;font-weight:700;text-transform:uppercase;">Senior Research Technician <span style="color:#666666;font-size:0.8em;font-weight:400;">1</span></h2>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Amanda Blanchard</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Senior Research Technician</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="https://as.nyu.edu/content/nyu-as/as/departments/cns/people/faculty.danique-jeurissen.html" style="color:#57068c;">Jeurissen</a> Lab</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:ab13596@nyu.edu" style="color:#57068c;">ab13596@nyu.edu</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Amanda Blanchard" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+<h2 id="cns-role-teaching-laboratory-manager" style="margin:24px 0 0;padding:8px 0 10px;border-bottom:1px solid #444444;color:#57068c;font-size:1em;font-weight:700;text-transform:uppercase;">Teaching Laboratory Manager <span style="color:#666666;font-size:0.8em;font-weight:400;">1</span></h2>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:16px 0;border-bottom:1px solid #c9c9c9;">
+<div style="flex:1 1 300px;min-width:0;">
+<h3 style="margin:0 0 3px;color:#57068c;font-size:1.05em;font-weight:700;line-height:1.25;">Mian Hou</h3>
+<p style="margin:0 0 12px;color:#666666;font-weight:700;">Teaching Laboratory Manager</p>
+<div style="font-size:0.93em;"><div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Lab</span><span style="min-width:0;overflow-wrap:anywhere;">CNS Teaching Laboratory</span></div>
+<div style="display:flex;gap:0.75em;"><span style="flex:0 0 8em;color:#666666;text-align:right;">Email</span><span style="min-width:0;overflow-wrap:anywhere;"><a href="mailto:mian.hou@nyu.edu" style="color:#57068c;">mian.hou@nyu.edu</a></span></div></div>
+</div>
+<div style="flex:0 0 200px;max-width:100%;"><img src="https://garrettjblair.com/cns_trainees/sources/no_image.png" alt="Placeholder portrait for Mian Hou" width="200" style="display:block;width:200px;max-width:100%;aspect-ratio:1/1;object-fit:cover;"></div>
+</div>
+</div>
