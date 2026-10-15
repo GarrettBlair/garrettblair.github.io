@@ -19,6 +19,20 @@ a:hover {color:#31866f !important; border-bottom-color: #4acaa8 !important; }  /
 .profile-heading img { width: 8em; aspect-ratio: auto; object-fit: cover; object-position: center 35%; flex: 0 0 auto; }
 .profile-heading h3 { flex: 1; margin: 0; }
 
+.resource-list .resource-item {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+	align-items: center;
+	gap: 1em;
+}
+.resource-list .resource-item.no-logo { grid-template-columns: 1fr; }
+.resource-list .resource-item img {
+	justify-self: center;
+	max-width: 100%;
+	max-height: 4em;
+	object-fit: contain;
+}
+
 @media screen and (max-width: 736px) {
 	.profile-heading { gap: .5em; }
 	.profile-heading img { width: 5em; aspect-ratio: auto; object-fit: contain; object-position: initial; }
