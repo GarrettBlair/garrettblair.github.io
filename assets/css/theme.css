@@ -19,6 +19,14 @@ a:hover {color:#31866f !important; border-bottom-color: #4acaa8 !important; }  /
 .profile-heading img { width: 8em; aspect-ratio: auto; object-fit: cover; object-position: center 35%; flex: 0 0 auto; }
 .profile-heading h3 { flex: 1; margin: 0; }
 
+.contact-actions { justify-content: center; }
+.contact-actions .button-icon {
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.15em;
+	filter: brightness(0) invert(1);
+}
+
 .resource-list .resource-item {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
